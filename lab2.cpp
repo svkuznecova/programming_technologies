@@ -158,9 +158,9 @@ Vector Vector :: operator ^(Vector& r) {
   return 0;
 }
 Vector Vector :: operator <(Vector& r) {
-  int a = array[0];
-  int b = array[1];
-  int c = array[2];
+  double a = array[0];
+  double b = array[1];
+  double c = array[2];
   cin >> cifr;
   double gf;
   a = a * cifr;
@@ -173,9 +173,9 @@ Vector Vector :: operator <(Vector& r) {
 
 }
 Vector Vector :: operator >(Vector& r) {
-  int a = array[0];
-  int b = array[1];
-  int c = array[2];
+  double a = array[0];
+  double b = array[1];
+  double c = array[2];
   cin >> cifr;
   double gf;
   a = a / cifr;
