@@ -17,16 +17,13 @@ public:
   Vector operator - (Vector& r);   // Вычитание
   Vector operator = (Vector& r);   // Присваивание
   Vector operator * (Vector& r);   // Произведение
-  Vector operator - ();       // Унарный минус
   Vector operator / (Vector& r);   // деление
   Vector operator ^ (Vector& r);   //скалярное произведение с углом
   Vector operator & (Vector& r);   //скалярное произведение без угла
   Vector operator < (Vector& r);
   Vector operator > (Vector& r);
 
-
   // КОНСТРУКТОРЫ
-
 
 // Конструктор принимающий размерность
   Vector(int s, int f, int d) {
@@ -121,13 +118,6 @@ Vector Vector :: operator -(Vector& r) {
   return 0;
 }
 
-Vector Vector :: operator -() {
-  cout << "\x1B[31mУнарный минус вектора \033[0m" << n << "\x1B[31m:\033[0m";
-  cout << endl;
-  for (int i = 0; i < size; i++) cout << -array[i] << " ";
-  cout << endl << endl;
-  return 0;
-}
 Vector Vector :: operator *(Vector& r) {
   cout << "\x1B[31mПроизведение векторов \033[0m" << n << "\x1B[31m и \033[0m" << r.n << "\x1B[31m:\033[0m";
   cout << endl;
@@ -256,7 +246,6 @@ int main() {
     // Операции с векторами
     a + b;
     a - b;
-    -b;
     a* b;
     a^ b;
     a& b;
@@ -309,3 +298,4 @@ int main() {
   }
 
 }
+
