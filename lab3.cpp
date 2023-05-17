@@ -1,281 +1,135 @@
-#include <iostream>
-using namespace std;
-class Matrix
-{
-private:
-  int rows, cols; // Размерность
-  double* pMatrix; // Массив
-  int number; // Номер
-public:
-  static int Count; // Кол-во созданных объектов
-
-  // Операторы
-  Matrix operator + (Matrix& r); // Сложение двух матриц
-  Matrix operator - (Matrix& r); // Вычитание двух матриц
-  Matrix operator * (Matrix& r); // Произведение двух матриц
-  Matrix operator * (double n); // Произведение матрицы на число
-
-  // Вывод объекта
-  void Print()
-  {
-    cout << "\x1B[36mМатрица \033[0m" << "№ " << number << "\x1B[36m, размер \033[0m" << rows << "x" << cols << "\x1B[36m:\033[0m" << endl;
-
-    for (int i = 0; i < rows; i++) {
-      for (int j = 0; j < cols; j++) {
-        cout << pMatrix[i * cols + j] << " ";
-      }
-      cout << endl;
-    }
-    cout << endl;
-  }
-
-
-  ///// КОНСТРУКТОРЫ 
-
-  // Конструкор по умолчанию
-  Matrix()
-  {
-    rows = 3;
-    cols = 3;
-    Count++;
-    number = Count;
-
-    pMatrix = new double[rows * cols];
-
-    for (int i = 0; i < rows * cols; i++)
-    {
-      (i % (rows + 1) == 0) ? pMatrix[i] = 1 : pMatrix[i] = 0;
-    }
-
-    cout << "\x1B[90m~ Вызван конструктор \033[0m" << "Matrix() " << "\x1B[90mсоздан объект \033[0m" << "№" << number << endl << endl;
-  }
-
-
-  // Конструктор принимающий размерность (2 значения)
-  Matrix(int n, int m)
-  {
-
-    rows = n;
-    cols = m;
-    Count++;
-    number = Count;
-
-    pMatrix = new double[rows * cols];
-
-    for (int i = 0; i < rows * cols; i++)
-    {
-      pMatrix[i] = 0;
-    }
-
-    cout << "\x1B[90m~ Вызван конструктор \033[0m" << "Matrix(int n, int m) " << "\x1B[90mсоздан объект \033[0m" << "№" << number << endl << endl;
-  }
-
-
-  // Конструктор принимающий размерность (1 значение)
-  Matrix(int n)
-  {
-
-    rows = n;
-    cols = n;
-    Count++;
-    number = Count;
-
-    pMatrix = new double[rows * cols];
-
-    for (int i = 0; i < rows * cols; i++)
-    {
-      (i % (rows + 1) == 0) ? pMatrix[i] = 1 : pMatrix[i] = 0;
-    }
-
-    cout << "\x1B[90m~ Вызван конструктор \033[0m" << "Matrix(int n) " << "\x1B[90mсоздан объект \033[0m" << "№" << number << endl << endl;
-  }
-
-
-  // Конструктор принимающий размерность и элементы массива
-  Matrix(int n, int m, double* x)
-  {
-    rows = n;
-    cols = m;
-    Count++;
-    number = Count;
-
-    pMatrix = new double[rows * cols];
-
-    for (int i = 0; i < rows * cols; i++)
-    {
-      pMatrix[i] = x[i];
-    }
-
-    cout << "\x1B[90m~ Вызван конструктор \033[0m" << "Matrix(int n, int m, double* x) " << "\x1B[90mсоздан объект \033[0m" << "№" << number << endl << endl;
-  };
-
-
-  // Конструктор копирования
-  Matrix(const Matrix& matrix)
-  {
-    rows = matrix.rows;
-    cols = matrix.cols;
-    Count++;
-    number = Count;
-
-    pMatrix = new double[rows * cols];
-
-    for (int i = 0; i < rows * cols; i++)
-    {
-      pMatrix[i] = matrix.pMatrix[i];
-    }
-
-    cout << "\x1B[90m~ Вызван конструктор \033[0m" << "Matrix(const Matrix& matrix) " << "\x1B[90mсоздан объект \033[0m" << "№" << number << endl << endl;
-  };
-
-
-  // Деструктор
-  ~Matrix()
-  {
-    delete[] pMatrix;
-    Count--;
-  }
-};
-
-///// РЕАЛИЗАЦИЯ ОПЕРАТОРОВ
-
-// Сложение двух матриц
-Matrix Matrix :: operator +(Matrix& r)
-{
-  // Проверка размерностей матриц
-  if (rows == r.rows && cols == r.cols)
-  {
-    Matrix result(rows, cols);
-
-    cout << "\x1B[90m~ Сложение объектов \033[0m" << "№" << number << "\x1B[90m и \033[0m" << "№" << r.number << "\x1B[90m, в объект \033[0m" << "№" << result.number + 1;
-    cout << endl << endl;
-
-    for (int i = 0; i < rows * cols; i++)
-    {
-      result.pMatrix[i] = pMatrix[i] + r.pMatrix[i];
-    }
-      result.Print();
-
-    return result;
-  }
-
-  // Вывод ошибки
-  else cout << "\x1B[90m~ Не удалось сложить объекты \033[0m" << "№" << number << "\x1B[90m и \033[0m" << "№" << r.number << endl << endl;
-}
-
-// Вычитание двух матриц
-Matrix Matrix :: operator -(Matrix& r)
-{
-  // Проверка размерностей матриц
-  if (rows == r.rows && cols == r.cols)
-  {
-    Matrix result(rows, cols);
-cout << "\x1B[90m~ Вычитание объектов \033[0m" << "№" << number << "\x1B[90m и \033[0m" << "№" << r.number << "\x1B[90m, в объект \033[0m" << "№" << result.number + 1;
-    cout << endl << endl;
-
-    for (int i = 0; i < rows * cols; i++)
-    {
-      result.pMatrix[i] = pMatrix[i] - r.pMatrix[i];
-    }
-    result.Print();
-    return result;
-  }
-
-  // Вывод ошибки
-  else cout << "\x1B[90m~ Не удалось вычесть объекты \033[0m" << "№" << number << "\x1B[90m и \033[0m" << "№" << r.number << endl << endl;
-}
-
-// Произведение двух матриц
-Matrix Matrix :: operator *(Matrix& r)
-{
-  // Проверка размерностей матриц
-  if (cols == r.rows)
-  {
-    Matrix result(rows, r.cols);
-
-    cout << "\x1B[90m~ Произведение объектов \033[0m" << "№" << number << "\x1B[90m и \033[0m" << "№" << r.number << "\x1B[90m, в объект \033[0m" << "№" << result.number + 1;
-    cout << endl << endl;
-
-    for (int i = 0; i < rows; i++) {
-      for (int j = 0; j < r.cols; j++) {
-        result.pMatrix[i * result.cols + j] = 0;
-        for (int k = 0; k < cols; k++) {
-          result.pMatrix[i * result.cols + j] += pMatrix[i * cols + k] * r.pMatrix[k * r.cols + j];
-        }
-      }
-    }
-
-    return result;
-  }
-
-  // Вывод ошибки
-  else cout << "\x1B[90m~ Не удалось умножить объекты \033[0m" << "№" << number << "\x1B[90m и \033[0m" << "№" << r.number << endl << endl;
-}
-
-
-// Произведение матрицы на число
-Matrix Matrix :: operator *(double n)
-{
-  Matrix result(rows, cols);
-
-  cout << "\x1B[90m~ Произведение объекта \033[0m" << "№" << number << "\x1B[90m на число \033[0m" << n << "\x1B[90m, в объект \033[0m" << "№" << result.number + 1;
-  cout << endl << endl;
-
-  for (int i = 0; i < rows * cols; i++)
-  {
-    result.pMatrix[i] = pMatrix[i] * n;
-  }
-
-  return result;
-}
-
-
-// Объявление статической переменной
-int Matrix::Count = 0;
-
-
-// Вывод количества созданных векторов
-void Total()
-{
-  cout << "\x1B[36mСоздано объектов: \033[0m" << Matrix::Count << endl << endl;
-}
-
-
-int main()
-{
-  setlocale(LC_ALL, "Russian");
-
-  double* A;
-  int x, y; 
-
-  cin >> x>> y;
-  
-  int size = x * y;
-  A = new double[size];
-  
-  for (int i = 0; i < size; i++)
-  {
-    cin >> A[i];
-  }
-  Matrix a(x,y,A);
-  
-  a.Print();
-
-  double* B;
-
-  cin >> x >> y;
-
-  size = x * y;
-  B = new double[size];
-
-  for (int i = 0; i < size; i++)
-  {
-    cin >> B[i];
-  }
-  Matrix b(x, y, B);
-  a + b;
-  a.Print();
-  b.Print();
-
-  Total();
+#include <iostream> 
+#include <vector> 
+ 
+using namespace std; 
+ 
+class Matrix { 
+private: 
+    int a; // строки 
+    int b; // столбцы 
+    vector<vector<double>>mat; 
+ 
+public: 
+    Matrix(int numA, int numB) : a(numA), b(numB) { 
+        mat.resize(a, vector<double>(b)); 
+    } 
+// Ввод матрицы 
+    void input() { 
+        for (int i = 0; i < a; i++) { 
+            for (int j = 0; j < b; j++) { 
+                cin >> mat[i][j]; 
+            } 
+        } 
+    } 
+// Вывод матрицы 
+    void print() { 
+        for (int i = 0; i < a; i++) { 
+            for (int j = 0; j < b; j++) { 
+                cout << mat[i][j] << " "; 
+            } 
+            cout << endl; 
+        } 
+    } 
+// Оператор сложение матриц 
+    Matrix operator+(Matrix& other) { 
+        Matrix result(a, b); 
+        for (int i = 0; i < a; i++) { 
+            for (int j = 0; j < b; j++) { 
+                result.mat[i][j] = mat[i][j] + other.mat[i][j]; 
+            } 
+        } 
+        return result; 
+    } 
+// Оператор вычитания матриц 
+    Matrix operator-(Matrix& other) { 
+        for (int i = 0; i < a; i++) { 
+            for (int j = 0; j < b; j++) { 
+                result.mat[i][j] = mat[i][j] - other.mat[i][j]; 
+            } 
+        } 
+        return result; 
+    } 
+// Оператор умножения матриц 
+    Matrix operator*(Matrix& other) { 
+        int otherb = other.b; 
+        Matrix result(a, otherb); 
+        for (int i = 0; i < a; i++) { 
+            for (int j = 0; j < otherb; j++) { 
+                for (int k = 0; k < b; k++) { 
+                    result.mat[i][j] += mat[i][k] * other.mat[k][j]; 
+                } 
+            } 
+        } 
+        return result; 
+    } 
+// Оператор умножения матриц на скаляр  
+    Matrix operator*(double scal) { 
+        Matrix result(a, b); 
+        for (int i = 0; i < a; i++) { 
+            for (int j = 0; j < b; j++) { 
+                result.mat[i][j] = mat[i][j] * scal; 
+            } 
+        } 
+        return result; 
+    } 
+// Оператор деления матриц на скаляр 
+    Matrix operator/(double scal) { 
+        Matrix result(a, b); 
+        for (int i = 0; i < a; i++) { 
+            for (int j = 0; j < b; j++) { 
+                result.mat[i][j] = mat[i][j] / scal; 
+            } 
+        } 
+        return result; 
+    } 
+}; 
+ 
+int main() { 
+    int a, b; 
+    double scal; 
+ 
+    cout << "Введите количество строк: "; 
+    cin >> a; 
+    cout << "Введите количество столбцов: "; 
+    cin >> b; 
+ 
+    Matrix mat1(a, b), mat2(a, b); 
+ 
+    cout << "Введите значения для первой матрицы:\n"; 
+    mat1.input(); 
+    cout << "Введите значения для второй матрицы:\n"; 
+    mat2.input(); 
+ 
+    cout << "Введите скаляр:\n"; 
+    cin >> scal; 
+ 
+    Matrix sum = mat1 + mat2; // Сложение матриц 
+    Matrix raz = mat1 - mat2; // Вычитание матриц 
+    Matrix ymn = mat1 * mat2; // Умножение матриц 
+    Matrix ymnskal1 = mat1 * scal; // Умножение 1-ой матрицы на скаляр  
+    Matrix delskal2 = mat2 / scal; // Деление 2-ой матрицы на скаляр  
+    Matrix ymnskal2 = mat2 * scal; // Умножение 2-ой матрицы на скаляр  
+    Matrix delskal1 = mat1 / scal; // Деление 1-ой матрицы на скаляр  
+ 
+//вывоод 
+    cout << "Сумма матриц: " << endl; 
+    sum.print(); 
+ 
+    cout << "Разность матриц: " << endl; 
+    raz.print(); 
+ 
+    cout << "Умножегние матриц: " << endl; 
+    ymn.print(); 
+ 
+    cout << "Умножение 1-ой матрицы на скаляр " << scal << ": " << endl; 
+    ymnskal1.print(); 
+    cout << "Деление 1-ой матрицы на скаляр  " << scal << ": " << endl; 
+    delskal1.print(); 
+ 
+    cout << "Умножение 2-ой матрица на скаляр  " << scal << ": " << endl; 
+    ymnskal2.print(); 
+    cout << "Деление 2-ой матрицы на скаляр  " << scal << ": " << endl; 
+    delskal2.print(); 
+ 
+    return 0; 
 }
